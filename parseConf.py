@@ -1,5 +1,5 @@
 import re
-
+import sys
 inConfFile="./confFiles/run0.mc.conf"
 
 fmtErrStr="format error: "
@@ -66,6 +66,7 @@ def parseConfContents(file):
                 matchErase=re.match(boolean_pattern,value,re.IGNORECASE)
                 if matchErase:
                     eraseData=matchErase.group(1)
+                    eraseData=eraseData.capitalize()
                 else:
                     print(fmtErrStr+oneLine)
                     exit(fmtCode)
@@ -75,6 +76,7 @@ def parseConfContents(file):
                 matchSmr=re.match(boolean_pattern,value,re.IGNORECASE)
                 if matchSmr:
                     searchReadSmrFile=matchSmr.group(1)
+                    searchReadSmrFile=searchReadSmrFile.capitalize()
                 else:
                     print(fmtErrStr+oneLine)
                     exit(fmtCode)
@@ -84,6 +86,7 @@ def parseConfContents(file):
                 matchLoad=re.match(boolean_pattern,value,re.IGNORECASE)
                 if matchLoad:
                     SearchLoadData=matchLoad.group(1)
+                    SearchLoadData=SearchLoadData.capitalize()
 
                 else:
                     print(fmtErrStr+oneLine)
