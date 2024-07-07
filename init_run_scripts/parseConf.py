@@ -43,11 +43,14 @@ def parseConfContents(file):
     TList=""
     eraseData=""
     searchReadSmrFile=""
-    SearchLoadData=""
+    #SearchLoadData=""
     obs_name=""
     potFuncName=""
     paramFile=""
     rowNum=""
+    effective_data_num_required=""
+    loop_to_write=""
+    default_flush_num=""
 
 
     float_pattern = r'[-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?'
@@ -90,16 +93,16 @@ def parseConfContents(file):
                     print(fmtErrStr+oneLine)
                     exit(fmtCode)
 
-            #match search_and_load_previous_data
-            if key=="search_and_load_previous_data":
-                matchLoad=re.match(boolean_pattern,value,re.IGNORECASE)
-                if matchLoad:
-                    SearchLoadData=matchLoad.group(1)
-                    SearchLoadData=SearchLoadData.capitalize()
-
-                else:
-                    print(fmtErrStr+oneLine)
-                    exit(fmtCode)
+            # #match search_and_load_previous_data
+            # if key=="search_and_load_previous_data":
+            #     matchLoad=re.match(boolean_pattern,value,re.IGNORECASE)
+            #     if matchLoad:
+            #         SearchLoadData=matchLoad.group(1)
+            #         SearchLoadData=SearchLoadData.capitalize()
+            #
+            #     else:
+            #         print(fmtErrStr+oneLine)
+            #         exit(fmtCode)
 
             #match observable_name
             if key=="observable_name":
@@ -109,7 +112,7 @@ def parseConfContents(file):
                     exit(fmtCode)
 
                 obs_name=value
-
+            #match potential function name
             if key=="potential_function_name":
                 #if matching a non word character
                 if re.search(r"[^\w]",value):
@@ -117,15 +120,39 @@ def parseConfContents(file):
                     exit(fmtCode)
                 potFuncName=value
 
+            #match parameter file
             if key=="parameter_file":
                 paramFile=value
 
+            #match row number in parameter file
             if key=="parameter_file_row":
                 #if matching a non digit character
                 if re.search(r"[^\d]",value):
                     print(fmtErrStr+oneLine)
                     exit(fmtCode)
                 rowNum=value
+            #match effective_data_num_required
+            if key=="effective_data_num_required":
+                if re.search(r"[^\d]",value):
+                    print(fmtErrStr+oneLine)
+                    exit(fmtCode)
+                effective_data_num_required=value
+            #match loop_to_write
+            if key=="loop_to_write":
+                if re.search(r"[^\d]",value):
+                    print(fmtErrStr+oneLine)
+                    exit(fmtCode)
+                loop_to_write=value
+
+            #match default_flush_num
+            if key=="default_flush_num":
+                if re.search(r"[^\d]",value):
+                    print(fmtErrStr+oneLine)
+                    exit(fmtCode)
+                default_flush_num=value
+
+
+
 
         else:
             print("line: "+oneLine+" is discarded.")
@@ -141,9 +168,9 @@ def parseConfContents(file):
         print("search_and_read_summary_file not found in "+str(file))
         exit(valueMissingCode)
 
-    if SearchLoadData=="":
-        print("search_and_load_previous_data not found in "+str(file))
-        exit(valueMissingCode)
+    # if SearchLoadData=="":
+    #     print("search_and_load_previous_data not found in "+str(file))
+    #     exit(valueMissingCode)
 
     #do not check if observable exists
 
@@ -156,16 +183,29 @@ def parseConfContents(file):
     if rowNum=="":
         print("parameter_file_row not found in "+str(file))
         exit(valueMissingCode)
+    if effective_data_num_required=="":
+        print("effective_data_num_required not found in "+str(file))
+        exit(valueMissingCode)
+    if loop_to_write=="":
+        print("loop_to_write not found in "+str(file))
+        exit(valueMissingCode)
+    if default_flush_num=="":
+        print("default_flush_num not found in "+str(file))
+        exit(valueMissingCode)
+
 
     if obs_name=="":
         dictTmp={
             "T":TList,
             "erase_data_if_exist":eraseData,
             "search_and_read_summary_file":searchReadSmrFile,
-            "search_and_load_previous_data":SearchLoadData,
+            #"search_and_load_previous_data":SearchLoadData,
             "potential_function_name":potFuncName,
             "parameter_file":paramFile,
-            "parameter_file_row":rowNum
+            "parameter_file_row":rowNum,
+            "effective_data_num_required":effective_data_num_required,
+            "loop_to_write":loop_to_write,
+            "default_flush_num":default_flush_num
         }
         return dictTmp
     else:
@@ -173,11 +213,14 @@ def parseConfContents(file):
             "T":TList,
             "erase_data_if_exist":eraseData,
             "search_and_read_summary_file":searchReadSmrFile,
-            "search_and_load_previous_data":SearchLoadData,
+            #"search_and_load_previous_data":SearchLoadData,
             "observable_name":obs_name,
             "potential_function_name":potFuncName,
             "parameter_file":paramFile,
-            "parameter_file_row":rowNum
+            "parameter_file_row":rowNum,
+            "effective_data_num_required":effective_data_num_required,
+            "loop_to_write":loop_to_write,
+            "default_flush_num":default_flush_num
         }
         return dictTmp
 
