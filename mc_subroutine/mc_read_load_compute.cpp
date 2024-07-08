@@ -118,10 +118,10 @@ void mc_computation::execute_mc(const double& L,const double &y0, const double &
 
             }//end of accept-reject
             U_ptr[j] = UCurr;
-            dist_ptr[varNum * j + 0] = LNext;
-            dist_ptr[varNum * j + 1] = y0Next;
-            dist_ptr[varNum * j + 2] = z0Next;
-            dist_ptr[varNum * j + 3] = y1Next;
+            dist_ptr[varNum * j + 0] = LCurr;
+            dist_ptr[varNum * j + 1] = y0Curr;
+            dist_ptr[varNum * j + 2] = z0Curr;
+            dist_ptr[varNum * j + 3] = y1Curr;
 
 
         }//end for loop
@@ -150,7 +150,7 @@ void mc_computation::execute_mc(const double& L,const double &y0, const double &
 
 
 void mc_computation::init_and_run(){
-    this->execute_mc(LInit,y0Init,z0Init,y1Init,loopLastFile,newFlushNum);
+    this->execute_mc(LInit,y0Init,z0Init,y1Init,loopLastFile+1,newFlushNum);
 
 
 }

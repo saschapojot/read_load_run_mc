@@ -1,7 +1,7 @@
 //
 // Created by polya on 7/8/24.
 //
-#include "poentialFunctionPrototype.hpp"
+#include "potentialFunctionPrototype.hpp"
 
 
 class V2 : public potentialFunction {
