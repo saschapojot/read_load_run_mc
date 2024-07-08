@@ -1,10 +1,11 @@
 import sys
-numArgErr=4
+import glob
+
 import json
 from decimal import Decimal
 
 #this script loads previous data
-
+numArgErr=4
 if (len(sys.argv)!=3):
     print("wrong number of arguments.")
     exit(numArgErr)
@@ -32,4 +33,26 @@ newMcStepNum=jsonFromSummary["newMcStepNum"]
 
 dataDir="./dataAll/"+potential_function_name+"/row"+str(parameter_file_row)+"/T"+str(TVal)+"/"
 
-pickleDir=dataDir+"/dist_AllPickle/"
+distPickleDir=dataDir+"/dist_AllPickle/"
+#search and read dist files
+#give arbitrary values to L, y0, z0, y1 without reading data
+LInit=1
+y0Init=2
+z0Init=3
+y1Init=4
+
+pklFileList=[]
+for file in glob.glob(dataDir+"/*.pkl"):
+    pklFileList.append(file)
+
+#if no data found, return the arbitrary values
+if len(pklFileList)==0:
+    initDataJson={
+        "L":LInit,
+        "y0":y0Init,
+        "z0":z0Init,
+        "y1":y1Init
+    }
+
+    print(initDataJson)
+    exit(0)

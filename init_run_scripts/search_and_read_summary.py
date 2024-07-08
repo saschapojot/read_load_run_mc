@@ -7,6 +7,8 @@ import os
 import shutil
 from distutils.util import strtobool
 
+import numpy as np
+
 #this script initializes the parameters for mc computation by reading summary file
 invalidValueErrCode=1
 mcErrCode=2
@@ -44,6 +46,10 @@ parameter_file_row=int(jsonData["parameter_file_row"])
 effective_data_num_required=int(jsonData["effective_data_num_required"])
 loop_to_write=int(jsonData["loop_to_write"])
 default_flush_num=int(jsonData["default_flush_num"])
+
+
+
+
 #data folder
 dataDir="./dataAll/"+potential_function_name+"/row"+str(parameter_file_row)+"/T"+str(TVal)+"/"
 
@@ -61,6 +67,11 @@ if erase_data_if_exist==True:
 
 #create dataDir if not exists
 Path(dataDir).mkdir(exist_ok=True, parents=True)
+#Udata, distData
+U_dataFolder=dataDir+"/data_files/U_AllPickle/"
+dist_dataFolder=dataDir+"/data_files/dist_AllPickle/"
+Path(U_dataFolder).mkdir(exist_ok=True, parents=True)
+Path(dist_dataFolder).mkdir(exist_ok=True, parents=True)
 
 
 #parameters to guide mc computation
@@ -70,7 +81,7 @@ startingVecPosition=-1
 newDataPointNum=-1
 
 newMcStepNum=loop_to_write*default_flush_num
-
+newFlushNum=default_flush_num
 # usingParamsInSummary=False
 # if search_and_read_summary_file==True:
 #     usingParamsInSummary=True
@@ -85,7 +96,8 @@ if "observable_name" not in jsonData:
         "startingFileInd":startingFileInd,
         "startingVecPosition":startingVecPosition,
         "newMcStepNum":newMcStepNum,
-        "newDataPointNum":newDataPointNum
+        "newDataPointNum":newDataPointNum,
+        "newFlushNum":newFlushNum
 
     }
     print(json.dumps(outDict))
@@ -105,7 +117,8 @@ if summaryFileExists==False:
         "startingFileInd":startingFileInd,
         "startingVecPosition":startingVecPosition,
         "newMcStepNum":newMcStepNum,
-        "newDataPointNum":newDataPointNum
+        "newDataPointNum":newDataPointNum,
+        "newFlushNum":newFlushNum
 
     }
     print(json.dumps(outDict))
@@ -132,7 +145,8 @@ for oneLine in linesInSummaryFile:
             "startingFileInd":startingFileInd,
             "startingVecPosition":startingVecPosition,
             "newMcStepNum":newMcStepNum,
-            "newDataPointNum":newDataPointNum
+            "newDataPointNum":newDataPointNum,
+            "newFlushNum":newFlushNum
 
         }
         print(json.dumps(outDict))
@@ -146,7 +160,8 @@ for oneLine in linesInSummaryFile:
             "startingFileInd":startingFileInd,
             "startingVecPosition":startingVecPosition,
             "newMcStepNum":newMcStepNum,
-            "newDataPointNum":newDataPointNum
+            "newDataPointNum":newDataPointNum,
+            "newFlushNum":newFlushNum
 
         }
         print(json.dumps(outDict))
@@ -181,12 +196,13 @@ for oneLine in linesInSummaryFile:
         startingVecPosition=int(matchStartingVecPosition.group(1))
 
 newMcStepNum=lag*newDataPointNum
-
+newFlushNum=int(np.ceil(newMcStepNum/loop_to_write))
 outDict={
     "startingFileInd":startingFileInd,
     "startingVecPosition":startingVecPosition,
     "newMcStepNum":newMcStepNum,
-    "newDataPointNum":newDataPointNum
+    "newDataPointNum":newDataPointNum,
+    "newFlushNum":newFlushNum
 
 }
 print(json.dumps(outDict))
