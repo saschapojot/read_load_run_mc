@@ -42,7 +42,7 @@ erase_data_if_exist=bool(strtobool(jsonData["erase_data_if_exist"]))
 search_and_read_summary_file=bool(strtobool(jsonData["search_and_read_summary_file"]))
 potential_function_name=jsonData["potential_function_name"]
 parameter_file=jsonData["parameter_file"]
-parameter_file_row=int(jsonData["parameter_file_row"])
+parameter_file_row=str(jsonData["parameter_file_row"])
 effective_data_num_required=int(jsonData["effective_data_num_required"])
 loop_to_write=int(jsonData["loop_to_write"])
 default_flush_num=int(jsonData["default_flush_num"])
@@ -51,7 +51,8 @@ default_flush_num=int(jsonData["default_flush_num"])
 
 
 #data folder
-dataDir="./dataAll/"+potential_function_name+"/row"+str(parameter_file_row)+"/T"+str(TVal)+"/"
+
+dataDir="./dataAll/"+potential_function_name+"/"+parameter_file_row+"/T"+str(TVal)+"/"
 
 
 
@@ -97,7 +98,11 @@ if "observable_name" not in jsonData:
         "startingVecPosition":startingVecPosition,
         "newMcStepNum":newMcStepNum,
         "newDataPointNum":newDataPointNum,
-        "newFlushNum":newFlushNum
+        "newFlushNum":newFlushNum,
+        "dataDir":dataDir,
+        "U_Dir":U_dataFolder,
+        "dist_Dir":dist_dataFolder
+
 
     }
     print(json.dumps(outDict))
@@ -118,7 +123,10 @@ if summaryFileExists==False:
         "startingVecPosition":startingVecPosition,
         "newMcStepNum":newMcStepNum,
         "newDataPointNum":newDataPointNum,
-        "newFlushNum":newFlushNum
+        "newFlushNum":newFlushNum,
+        "dataDir":dataDir,
+        "U_Dir":U_dataFolder,
+        "dist_Dir":dist_dataFolder
 
     }
     print(json.dumps(outDict))
@@ -146,7 +154,10 @@ for oneLine in linesInSummaryFile:
             "startingVecPosition":startingVecPosition,
             "newMcStepNum":newMcStepNum,
             "newDataPointNum":newDataPointNum,
-            "newFlushNum":newFlushNum
+            "newFlushNum":newFlushNum,
+            "dataDir":dataDir,
+            "U_Dir":U_dataFolder,
+            "dist_Dir":dist_dataFolder
 
         }
         print(json.dumps(outDict))
@@ -161,7 +172,10 @@ for oneLine in linesInSummaryFile:
             "startingVecPosition":startingVecPosition,
             "newMcStepNum":newMcStepNum,
             "newDataPointNum":newDataPointNum,
-            "newFlushNum":newFlushNum
+            "newFlushNum":newFlushNum,
+            "dataDir":dataDir,
+            "U_Dir":U_dataFolder,
+            "dist_Dir":dist_dataFolder
 
         }
         print(json.dumps(outDict))
@@ -202,7 +216,10 @@ outDict={
     "startingVecPosition":startingVecPosition,
     "newMcStepNum":newMcStepNum,
     "newDataPointNum":newDataPointNum,
-    "newFlushNum":newFlushNum
+    "newFlushNum":newFlushNum,
+    "dataDir":dataDir,
+    "U_Dir":U_dataFolder,
+    "dist_Dir":dist_dataFolder
 
 }
 print(json.dumps(outDict))

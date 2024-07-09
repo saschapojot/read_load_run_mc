@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.27)
 project(read_load_run_mc)
 
 set(CMAKE_CXX_STANDARD 17)
+
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
@@ -12,12 +13,14 @@ include_directories(${Python3_INCLUDE_DIRS})
 
 add_executable(run_mc run_mc.cpp mc_subroutine/mc_read_load_compute.cpp potentialFunction/potentialFunctions.cpp)
 
+
 set_source_files_properties(
         mc_subroutine/mc_read_load_compute.cpp
         PROPERTIES
 
         COMPILE_OPTIONS "-O3"
 )
+
 set_source_files_properties(
         potentialFunction/potentialFunctions.cpp
         PROPERTIES
@@ -32,6 +35,7 @@ if (Boost_NO_SYSTEM_PATHS)
     set(Boost_LIBRARY_DIR "/home/polya/cppLocal/boostBuild/lib")
 endif (Boost_NO_SYSTEM_PATHS)
 
+
 find_package(Boost  REQUIRED filesystem json  python${Python3_VERSION_MAJOR}${Python3_VERSION_MINOR})
 
 if(Boost_FOUND)
@@ -44,7 +48,6 @@ if(Boost_FOUND)
 else()
     message(WARNING "boost not found.")
 endif()
-
 
 target_link_libraries(run_mc Boost::filesystem)
 target_link_libraries(run_mc Boost::python)

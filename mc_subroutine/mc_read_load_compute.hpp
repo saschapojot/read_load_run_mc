@@ -4,7 +4,7 @@
 
 #ifndef READ_LOAD_RUN_MC_MC_READ_LOAD_COMPUTE_HPP
 #define READ_LOAD_RUN_MC_MC_READ_LOAD_COMPUTE_HPP
-#include "../potentialFunction/poentialFunctionPrototype.hpp"
+#include "../potentialFunction/potentialFunctionPrototype.hpp"
 
 
 

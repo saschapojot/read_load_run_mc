@@ -47,7 +47,8 @@ def parseConfContents(file):
     obs_name=""
     potFuncName=""
     paramFile=""
-    rowNum=""
+    # rowNum=""
+    rowName=""
     effective_data_num_required=""
     loop_to_write=""
     default_flush_num=""
@@ -126,11 +127,12 @@ def parseConfContents(file):
 
             #match row number in parameter file
             if key=="parameter_file_row":
-                #if matching a non digit character
-                if re.search(r"[^\d]",value):
-                    print(fmtErrStr+oneLine)
-                    exit(fmtCode)
-                rowNum=value
+                # #if matching a non digit character
+                # if re.search(r"[^\d]",value):
+                #     print(fmtErrStr+oneLine)
+                #     exit(fmtCode)
+
+                rowName=value
             #match effective_data_num_required
             if key=="effective_data_num_required":
                 if re.search(r"[^\d]",value):
@@ -180,7 +182,7 @@ def parseConfContents(file):
     if paramFile=="":
         print("parameter_file not found in "+str(file))
         exit(valueMissingCode)
-    if rowNum=="":
+    if rowName=="":
         print("parameter_file_row not found in "+str(file))
         exit(valueMissingCode)
     if effective_data_num_required=="":
@@ -202,7 +204,7 @@ def parseConfContents(file):
             #"search_and_load_previous_data":SearchLoadData,
             "potential_function_name":potFuncName,
             "parameter_file":paramFile,
-            "parameter_file_row":rowNum,
+            "parameter_file_row":rowName,
             "effective_data_num_required":effective_data_num_required,
             "loop_to_write":loop_to_write,
             "default_flush_num":default_flush_num
@@ -217,7 +219,7 @@ def parseConfContents(file):
             "observable_name":obs_name,
             "potential_function_name":potFuncName,
             "parameter_file":paramFile,
-            "parameter_file_row":rowNum,
+            "parameter_file_row":rowName,
             "effective_data_num_required":effective_data_num_required,
             "loop_to_write":loop_to_write,
             "default_flush_num":default_flush_num
