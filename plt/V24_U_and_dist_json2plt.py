@@ -13,7 +13,7 @@ if (len(sys.argv)!=2):
     print("wrong number of arguments")
     exit()
 
-funcName="V2"
+funcName="V24"
 rowName=sys.argv[1]
 jsonFolderRoot="../dataAll/"+funcName+"/"+rowName+"/jsonOutAll/"
 
@@ -40,16 +40,29 @@ if match_a2:
     a2=float(match_a2.group(1))
 
 
-#match c1
-match_c1=re.search(r"c1=([-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?)",line)
-if match_c1:
-    c1=float(match_c1.group(1))
+#match c12
+match_c12=re.search(r"c12=([-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?)",line)
+if match_c12:
+    c12=float(match_c12.group(1))
 
-#match c2
-match_c2=re.search(r"c2=([-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?)",line)
-if match_c2:
-    c2=float(match_c2.group(1))
 
+#match c14
+match_c14=re.search(r"c14=([-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?)",line)
+if match_c14:
+    c14=float(match_c14.group(1))
+
+#match c22
+match_c22=re.search(r"c22=([-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?)",line)
+if match_c22:
+    c22=float(match_c22.group(1))
+
+#match c24
+match_c24=re.search(r"c24=([-+]?(?:\d*\.\d+|\d+)(?:[eE][-+]?\d+)?)",line)
+if match_c24:
+    c24=float(match_c24.group(1))
+
+c1=c12
+c2=c22
 
 TVals=[]
 TFileNames=[]

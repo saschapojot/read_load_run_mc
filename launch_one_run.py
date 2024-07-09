@@ -111,7 +111,11 @@ while True:
         break
     if output:
         print(output.strip())
-
+stdout, stderr = process.communicate()
+if stdout:
+    print(stdout.strip())
+if stderr:
+    print(stderr.strip())
 ##########################################################
 #statistics
 # #check  dist
