@@ -58,6 +58,7 @@ public:
             std::cerr << "T must be >0" << std::endl;
             std::exit(1);
         }
+        std::cout<<"T="<<T<<std::endl;
         this->beta = 1 / T;
         double stepForT1 = 0.1;
         this->h = stepForT1 * T > 0.2 ? 0.2 : stepForT1 * T;//stepSize;

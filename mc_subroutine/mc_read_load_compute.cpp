@@ -145,7 +145,7 @@ void mc_computation::execute_mc(const double& L,const double &y0, const double &
     }//end flush for loop
 
 
-
+    std::cout<<"mc executed for "<<flushNum<<" flushes."<<std::endl;
 }
 
 
