@@ -6,9 +6,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-set(Python3_INCLUDE_DIRS "/home/polya/anaconda3/include/python3.12")
-set(Python3_LIBRARIES "/home/polya/anaconda3/lib/libpython3.12.so")
-include_directories(${Python3_INCLUDE_DIRS})
+#set(Python3_INCLUDE_DIRS "/home/polya/anaconda3/include/python3.12")
+#set(Python3_LIBRARIES "/home/polya/anaconda3/lib/libpython3.12.so")
+#include_directories(${Python3_INCLUDE_DIRS})
 
 
 add_executable(run_mc run_mc.cpp mc_subroutine/mc_read_load_compute.cpp potentialFunction/potentialFunctions.cpp)
@@ -36,7 +36,7 @@ if (Boost_NO_SYSTEM_PATHS)
 endif (Boost_NO_SYSTEM_PATHS)
 
 
-find_package(Boost  REQUIRED filesystem json  python${Python3_VERSION_MAJOR}${Python3_VERSION_MINOR})
+find_package(Boost  REQUIRED filesystem json)
 
 if(Boost_FOUND)
     message(STATUS "boost root is: ${Boost_ROOT}")
@@ -50,6 +50,6 @@ else()
 endif()
 
 target_link_libraries(run_mc Boost::filesystem)
-target_link_libraries(run_mc Boost::python)
-target_link_libraries(run_mc ${Python3_LIBRARIES})
+#target_link_libraries(run_mc Boost::python)
+#target_link_libraries(run_mc ${Python3_LIBRARIES})
 target_link_libraries(run_mc Boost::json)

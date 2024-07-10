@@ -32,8 +32,11 @@ jsonDataFromConf = json.loads(confResult.stdout)
 ##################################################
 #read summary file
 parseSummaryResult=subprocess.run(["python3","./init_run_scripts/search_and_read_summary.py", json.dumps(jsonDataFromConf)],capture_output=True, text=True)
+# print(parseSummaryResult.stdout)
 if parseSummaryResult.returncode!=0:
     print("Error in parsing summary with code "+str(parseSummaryResult.returncode))
+    print(parseSummaryResult.stdout)
+    print(parseSummaryResult.stderr)
     exit(summaryErrCode)
 
 jsonFromSummary=json.loads(parseSummaryResult.stdout)
@@ -44,9 +47,9 @@ jsonFromSummary=json.loads(parseSummaryResult.stdout)
 ###############################################
 #load previous data, to get L, y0,z0,y1
 loadResult=subprocess.run(["python3","./init_run_scripts/load_previous_data.py", json.dumps(jsonDataFromConf), json.dumps(jsonFromSummary)],capture_output=True, text=True)
-
+# print(loadResult.stdout)
 if loadResult.returncode!=0:
-    print("Error in parsing summary with code "+str(loadResult.returncode))
+    print("Error in loading with code "+str(loadResult.returncode))
     exit(loadErrCode)
 # print(loadResult.stdout)
 #############################################
@@ -122,6 +125,7 @@ if stderr:
 #
 checkDistErrCode=5
 check_distResult=subprocess.run(["python3","./oneTCheckObservables/check_U_and_distOneT.py",json.dumps(jsonFromSummary),json.dumps(jsonDataFromConf)],capture_output=True, text=True)
+# print(check_distResult.stdout)
 if check_distResult.returncode!=0:
     print("Error in checking dist with code "+str(check_distResult.returncode))
     exit(checkDistErrCode)

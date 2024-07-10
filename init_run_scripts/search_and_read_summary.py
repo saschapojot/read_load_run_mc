@@ -55,7 +55,7 @@ default_flush_num=int(jsonData["default_flush_num"])
 dataDir="./dataAll/"+potential_function_name+"/"+parameter_file_row+"/T"+str(TVal)+"/"
 
 
-
+# print(dataDir)
 # Path(dataDir).mkdir(exist_ok=True,parents=True)
 if erase_data_if_exist==True:
     if os.path.isdir(dataDir):

@@ -41,19 +41,32 @@ y0Init=2
 z0Init=3
 y1Init=4
 loopLastFile=-1
-
-pklFileList=[]
+#########################################
+##search pkl files
+# pklFileList=[]
+# loopEndAll=[]
+# # print(distDataDir)
+# for file in glob.glob(distDataDir+"/*.pkl"):
+#     pklFileList.append(file)
+#     matchEnd=re.search(r"loopEnd(\d+)",file)
+#     if matchEnd:
+#         loopEndAll.append(int(matchEnd.group(1)))
+###############################################
+#############################################
+#search txt files
+txtFileList=[]
 loopEndAll=[]
-# print(distDataDir)
-for file in glob.glob(distDataDir+"/*.pkl"):
-    pklFileList.append(file)
+for file in glob.glob(distDataDir+"/*.txt"):
+    txtFileList.append(file)
     matchEnd=re.search(r"loopEnd(\d+)",file)
     if matchEnd:
         loopEndAll.append(int(matchEnd.group(1)))
 
+#############################################
+
 # print(pklFileList)
 #if no data found, return the arbitrary values
-if len(pklFileList)==0:
+if len(txtFileList)==0:
     initDataJson={
         "L":LInit,
         "y0":y0Init,
@@ -68,14 +81,17 @@ if len(pklFileList)==0:
 #if found pkl data
 sortedEndInds=np.argsort(loopEndAll)
 sortedLoopEnd=[loopEndAll[ind] for ind in sortedEndInds]
-sortedPklFileNames=[pklFileList[ind] for ind in sortedEndInds]
+sortedPklFileNames=[txtFileList[ind] for ind in sortedEndInds]
 loopLastFile=sortedLoopEnd[-1]
 
 
 
 lastFileName=sortedPklFileNames[-1]
-with open(lastFileName,"rb") as fptr:
-    vec=pickle.load(fptr)
+with open(lastFileName,"r") as fptr:
+    # vec=pickle.load(fptr)
+    content = fptr.read()
+    vec=np.array([float(num.strip()) for num in content.split(',')])
+
 LInit,y0Init,z0Init,y1Init=vec[-4:]
 
 initDataJson={

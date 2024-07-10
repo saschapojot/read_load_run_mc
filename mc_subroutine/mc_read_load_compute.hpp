@@ -9,11 +9,11 @@
 
 
 #include <boost/filesystem.hpp>
-#include <boost/python.hpp>
-#include <boost/python/object/pickle_support.hpp>
+//#include <boost/python.hpp>
+//#include <boost/python/object/pickle_support.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
-#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
+//#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 #include <chrono>
 #include <cstdlib>
@@ -194,53 +194,76 @@ public:
     void init_and_run();
 
     //read and write to pickle
-    static void save_array_to_pickle(std::shared_ptr<double[]> &ptr, std::size_t size, const std::string& filename) {
-        using namespace boost::python;
-        try {
-            Py_Initialize();  // Initialize the Python interpreter
-            if (!Py_IsInitialized()) {
-                throw std::runtime_error("Failed to initialize Python interpreter");
+//    static void save_array_to_pickle(std::shared_ptr<double[]> &ptr, std::size_t size, const std::string& filename) {
+//        using namespace boost::python;
+//        try {
+//            Py_Initialize();  // Initialize the Python interpreter
+//            if (!Py_IsInitialized()) {
+//                throw std::runtime_error("Failed to initialize Python interpreter");
+//            }
+//
+//            // Debug output
+//            std::cout << "Python interpreter initialized successfully." << std::endl;
+//
+//            // Import the pickle module
+//            object pickle = import("pickle");
+//            object pickle_dumps = pickle.attr("dumps");
+//
+//            // Create a Python list from the C++ array
+//            list py_list;
+//            for (std::size_t i = 0; i < size; ++i) {
+//                py_list.append(ptr[i]);
+//            }
+//
+//            // Serialize the list using pickle.dumps
+//            object serialized_array = pickle_dumps(py_list, 2);  // Use protocol 2 for binary compatibility
+//
+//            // Extract the serialized data as a string
+//            std::string serialized_str = extract<std::string>(serialized_array);
+//
+//            // Write the serialized data to a file
+//            std::ofstream file(filename, std::ios::binary);
+//            if (!file) {
+//                throw std::runtime_error("Failed to open file for writing: " + filename);
+//            }
+//            file.write(serialized_str.data(), serialized_str.size());
+//            file.close();
+//
+//            // Debug output
+//            std::cout << "Array serialized and written to file successfully." << std::endl;
+//        } catch (const error_already_set&) {
+//            PyErr_Print();
+//            std::cerr << "Boost.Python error occurred while saving array to pickle file." << std::endl;
+//        } catch (const std::exception& e) {
+//            std::cerr << "Exception: " << e.what() << std::endl;
+//        }
+//
+//        if (Py_IsInitialized()) {
+//            Py_Finalize();  // Finalize the Python interpreter
+//        }
+//    }
+
+
+    static void save_array_to_txt(std::shared_ptr<double[]> &ptr, std::size_t size, const std::string& filename){
+
+// Open the file in write mode
+        std::ofstream outFile(filename);
+        if (!outFile.is_open()) {
+            std::cerr << "Failed to open file: " << filename << std::endl;
+            std::exit(4);
+        }
+        // Write the numbers to the file separated by commas
+        for (size_t i = 0; i < size; ++i) {
+            outFile << ptr[i];
+            if (i < size - 1) {
+                outFile << ",";
             }
-
-            // Debug output
-            std::cout << "Python interpreter initialized successfully." << std::endl;
-
-            // Import the pickle module
-            object pickle = import("pickle");
-            object pickle_dumps = pickle.attr("dumps");
-
-            // Create a Python list from the C++ array
-            list py_list;
-            for (std::size_t i = 0; i < size; ++i) {
-                py_list.append(ptr[i]);
-            }
-
-            // Serialize the list using pickle.dumps
-            object serialized_array = pickle_dumps(py_list, 2);  // Use protocol 2 for binary compatibility
-
-            // Extract the serialized data as a string
-            std::string serialized_str = extract<std::string>(serialized_array);
-
-            // Write the serialized data to a file
-            std::ofstream file(filename, std::ios::binary);
-            if (!file) {
-                throw std::runtime_error("Failed to open file for writing: " + filename);
-            }
-            file.write(serialized_str.data(), serialized_str.size());
-            file.close();
-
-            // Debug output
-            std::cout << "Array serialized and written to file successfully." << std::endl;
-        } catch (const error_already_set&) {
-            PyErr_Print();
-            std::cerr << "Boost.Python error occurred while saving array to pickle file." << std::endl;
-        } catch (const std::exception& e) {
-            std::cerr << "Exception: " << e.what() << std::endl;
         }
 
-        if (Py_IsInitialized()) {
-            Py_Finalize();  // Finalize the Python interpreter
-        }
+        // Close the file
+        outFile.close();
+
+
     }
 
 public:

@@ -22,6 +22,7 @@ jsonFromSummaryLast=json.loads(sys.argv[1])
 jsonDataFromConf=json.loads(sys.argv[2])
 dataDir=jsonFromSummaryLast["dataDir"]
 dist_Dir=jsonFromSummaryLast["dist_Dir"]
+# print("dist_Dir="+dist_Dir)
 U_Dir=jsonFromSummaryLast["U_Dir"]
 effective_data_num_required=int(jsonDataFromConf["effective_data_num_required"])
 # print(effective_data_num_required)
@@ -37,7 +38,7 @@ summary_UFile=summaryU+"/summaryFile_U.txt"
 def sort_data_files_by_lpEnd(oneDir):
     dataFilesAll=[]
     loopEndAll=[]
-    for oneDataFile in glob.glob(oneDir+"/*.pkl"):
+    for oneDataFile in glob.glob(oneDir+"/*.txt"):
         # print(oneDataFile)
         dataFilesAll.append(oneDataFile)
         matchEnd=re.search(r"loopEnd(\d+)",oneDataFile)
@@ -114,6 +115,7 @@ def checkDataFilesForOneT(dist_pkl_dir, U_pkl_dir):
 
 
     dist_sortedDataFilesToRead=sort_data_files_by_lpEnd(dist_pkl_dir)
+    # print(dist_sortedDataFilesToRead)
     U_sortedDataFilesToRead=sort_data_files_by_lpEnd(U_pkl_dir)
     if len(dist_sortedDataFilesToRead)==0:
         print("no data for dist.")
@@ -138,8 +140,9 @@ def checkDataFilesForOneT(dist_pkl_dir, U_pkl_dir):
     U_startingVecPosition=0
 
     # #read starting dist data file
-    with open(dist_startingFileName,"rb") as fptr:
-        dist_vec=np.array(pickle.load(fptr))
+    with open(dist_startingFileName,"r") as fptr:
+        dist_content = fptr.read()
+        dist_vec=np.array([float(num.strip()) for num in dist_content.split(',')])
 
         if dist_parsedStartingFileInd>0:
             dist_startingVecPosition=dist_parsedStartingVecPosition
@@ -151,8 +154,11 @@ def checkDataFilesForOneT(dist_pkl_dir, U_pkl_dir):
 
         # vecTruncated=vec[startingVecPosition*4:]#remember that every 4 numbers are L, y0, z0, y1
 
-    with open(U_startingFileName,"rb")as fptr:
-        U_vec=np.array(pickle.load(fptr))
+    with open(U_startingFileName,"r")as fptr:
+        # U_vec=np.array(pickle.load(fptr))
+        U_content=fptr.read()
+        U_vec=np.array([float(num.strip()) for num in U_content.split(',')])
+
         U_lengthTmp=len(U_vec)
         if U_parsedStartingFileInd>0:
             U_startingVecPosition=U_parsedStartingVecPosition
@@ -165,14 +171,18 @@ def checkDataFilesForOneT(dist_pkl_dir, U_pkl_dir):
     U_vecTruncated=U_vec[startingVecPosition:]
     #read the rest of dist.pkl files
     for dist_inFile in dist_sortedDataFilesToRead[(startingFileInd+1):]:
-        with open(dist_inFile,"rb") as fptr:
-            dist_inVec=np.array(pickle.load(fptr))
+        with open(dist_inFile,"r") as fptr:
+            # dist_inVec=np.array(pickle.load(fptr))
+            dist_inContent=fptr.read()
+            dist_inVec=np.array([float(num.strip()) for num in dist_inContent.split(',')])
             dist_vecTruncated=np.r_[dist_vecTruncated,dist_inVec]
 
     #read the rest of U.pkl files
     for U_inFile in U_sortedDataFilesToRead[(startingFileInd+1):]:
-        with open(U_inFile,"rb") as fptr:
-            U_inVec=np.array(pickle.load(fptr))
+        with open(U_inFile,"r") as fptr:
+            U_inContent=fptr.read()
+            # U_inVec=np.array(pickle.load(fptr))
+            U_inVec=np.array([float(num.strip()) for num in U_inContent.split(',')])
             U_vecTruncated=np.r_[U_vecTruncated,U_inVec]
 
 

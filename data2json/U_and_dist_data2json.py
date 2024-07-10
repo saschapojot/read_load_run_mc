@@ -88,7 +88,7 @@ def sort_data_files_by_lpEnd(oneTFolder,obs_name):
     dataFilesAll=[]
     loopEndAll=[]
 
-    for oneDataFile in glob.glob(dataFolderName+"/*.pkl"):
+    for oneDataFile in glob.glob(dataFolderName+"/*.txt"):
         dataFilesAll.append(oneDataFile)
         matchEnd=re.search(r"loopEnd(\d+)",oneDataFile)
         if matchEnd:
@@ -115,13 +115,17 @@ def dist_data2jsonForOneT(oneTFolder,oneTStr,startingFileInd,startingVecPosition
     # print("startingVecPosition="+str(startingVecPosition))
     startingFileName=sortedDataFilesToRead[startingFileInd]
     #read starting data file
-    with open(startingFileName,"rb") as fptr:
-        vec=np.array(pickle.load(fptr))
+    with open(startingFileName,"r") as fptr:
+        content=fptr.read()
+        # vec=np.array(pickle.load(fptr))
+        vec=np.array([float(num.strip()) for num in content.split(',')])
         vecTruncated=vec[startingVecPosition*4:]
     #read the rest of the data files
     for inFile in sortedDataFilesToRead[(startingFileInd+1):]:
-        with open(inFile,"rb") as fptr:
-            inVec=np.array(pickle.load(fptr))
+        with open(inFile,"r") as fptr:
+            inContent=fptr.read()
+            # inVec=np.array(pickle.load(fptr))
+            inVec=np.array([float(num.strip()) for num in inContent.split(',')])
             vecTruncated=np.r_[vecTruncated,inVec]
 
     configNum=int(len(vecTruncated)/4)#number of [L,y0,z0,y1]
@@ -164,13 +168,17 @@ def U_data2jsonForOneT(oneTFolder,oneTStr,startingFileInd,startingVecPosition,la
     TRoot=oneTFolder
     sortedDataFilesToRead=sort_data_files_by_lpEnd(TRoot,obs_U)
     startingFileName=sortedDataFilesToRead[startingFileInd]
-    with open(startingFileName,"rb") as fptr:
-        vec=np.array(pickle.load(fptr))
+    with open(startingFileName,"r") as fptr:
+        content=fptr.read()
+        # vec=np.array(pickle.load(fptr))
+        vec=np.array([float(num.strip()) for num in content.split(',')])
         vecTruncated=vec[startingVecPosition:]
     #read the rest of the data files
     for inFile in sortedDataFilesToRead[(startingFileInd+1):]:
-        with open(inFile,"rb") as fptr:
-            inVec=np.array(pickle.load(fptr))
+        with open(inFile,"r") as fptr:
+            # inVec=np.array(pickle.load(fptr))
+            inContent=fptr.read()
+            inVec=np.array([float(num.strip()) for num in inContent.split(',')])
             vecTruncated=np.r_[vecTruncated,inVec]
     # configNum=int(len(vecTruncated))#number of U
     UVec=vecTruncated

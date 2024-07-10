@@ -128,12 +128,14 @@ void mc_computation::execute_mc(const double& L,const double &y0, const double &
         size_t loopEnd = loopStart + (fls + 1) * loopToWrite - 1;
         std::string fileNameMiddle = "loopStart" + std::to_string(loopStart) + "loopEnd" + std::to_string(loopEnd);
         //save U_ptr
-        std::string out_UPickleFileName = this->U_dataFolder + "/" + fileNameMiddle + ".U.pkl";
-        save_array_to_pickle(U_ptr, loopToWrite, out_UPickleFileName);
+        std::string out_UPickleFileName = this->U_dataFolder + "/" + fileNameMiddle + ".U.txt";
+//        save_array_to_pickle(U_ptr, loopToWrite, out_UPickleFileName);
+        save_array_to_txt(U_ptr, loopToWrite, out_UPickleFileName);
 
         //save dist_ptr
-        std::string out_distPickleFileName = this->dist_dataFolder + "/" + fileNameMiddle + ".dist.pkl";
-        save_array_to_pickle(dist_ptr, varNum * loopToWrite, out_distPickleFileName);
+        std::string out_distPickleFileName = this->dist_dataFolder + "/" + fileNameMiddle + ".dist.txt";
+//        save_array_to_pickle(dist_ptr, varNum * loopToWrite, out_distPickleFileName);
+        save_array_to_txt(dist_ptr, varNum * loopToWrite, out_distPickleFileName);
 
         const auto tMCEnd{std::chrono::steady_clock::now()};
         const std::chrono::duration<double> elapsed_secondsAll{tMCEnd - tMCStart};
